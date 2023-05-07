@@ -4,6 +4,6 @@ from django.urls import path
 from.import views
 #add login page and signin page with path with the function naem created in view
 urlpatterns = [
-    path('login',views.loginn,name='lin'),
-    path('signup',views.signup,name='sup'),
+    path('login/',views.loginn,name='lin'),
+    path('signup/',views.signup,name='sup'),
 ]
