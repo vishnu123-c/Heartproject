@@ -2,9 +2,9 @@ from django.db import models
 
 # Create your models here.
 class ValueStore(models.Model):
-    GENDER_CHOICES = [('M', 'Male'), ('F', 'Female')]
+    #GENDER_CHOICES = [('M', 'Male'), ('F', 'Female')]
     age=models.IntegerField()
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    gender = models.IntegerField()
     cp=models.IntegerField()
     trestbps=models.IntegerField()
     cholestrol=models.IntegerField()
@@ -16,5 +16,8 @@ class ValueStore(models.Model):
     slope=models.IntegerField()
     ca=models.IntegerField()
     thal=models.IntegerField()
+    
+    def __str__(self):
+        return str(self.id)
     
     

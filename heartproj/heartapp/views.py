@@ -3,6 +3,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from .models import ValueStore
+import numpy as np
+import joblib
+import pickle
+
+# with open('heartproj/decision_model.sav', 'rb') as f:
+#                 model = pickle.load(f)
 
 # Create your views here.
 def homepage1(request):
@@ -14,7 +20,7 @@ def homepage2(request):
 def predict(request):
     if request.method=='POST':
         age=int(request.POST["age"])
-        gender = request.POST.get('gender')
+        gender=int(request.POST["gender"])
         cp=int(request.POST["cp"])
         trestbps=int(request.POST["trestbps"])
         cholestrol=int(request.POST["cholestrol"])
@@ -27,10 +33,22 @@ def predict(request):
         ca=int(request.POST["ca"])
         thal=int(request.POST["thal"])
         
+        data = np.array([[age, gender, cp, trestbps, cholestrol, fbs, restecg, thalach]]) #exang, oldpeak, slope, ca, thal
+        #arr = np.array(data)
+        # load the trained model
+        model = joblib.load("savedmodels/dt_model.pkl")
+        # model = pickle.load(open('savedmodels/decision_model.sav','rb'))
+        
+        # predict the output for the input values
+        prediction =  model.predict(data)
+        
         ValueStore.objects.create(age=age,gender=gender,cp=cp,trestbps=trestbps,cholestrol=cholestrol,fbs=fbs,restecg=restecg,thalach=thalach,exang=exang,oldpeak=oldpeak,slope=slope,ca=ca,thal=thal)
         
+        return render(request, 'predict.html', {'prediction': prediction})
     
     return render(request, 'predict.html')
+
+
 def loginn(request):
     if request.method=='POST':
         username=request.POST.get('username')
