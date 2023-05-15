@@ -59,7 +59,7 @@ def loginn(request):
         user=authenticate(request,username=username,password=pass1)
         if user is not None:
             messages.info(request,"you logged in ")
-            return redirect('home2')
+            return render(request,'homepage2.html',{'user':user})
             #login(request,user)
             #return redirect('sin')
         else:
