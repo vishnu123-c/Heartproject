@@ -28,23 +28,26 @@ def predict(request):
         restecg=int(request.POST["restecg"])
         thalach=int(request.POST["thalach"])
         exang=int(request.POST["exang"])
-        oldpeak=int(request.POST["oldpeak"])
+        oldpeak=float(request.POST["oldpeak"])
         slope=int(request.POST["slope"])
         ca=int(request.POST["ca"])
         thal=int(request.POST["thal"])
         
-        data = np.array([[age, gender, cp, trestbps, cholestrol, fbs, restecg, thalach]]) #exang, oldpeak, slope, ca, thal
-        #arr = np.array(data)
+        data = np.array([[age,gender, cp,trestbps,cholestrol, fbs, restecg,thalach, exang,oldpeak,slope,ca,thal]]) #exang, oldpeak, slope, ca, thal
+        #arr = np.array(data) 'sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'ca', 'thal', 'target']
         # load the trained model
-        model = joblib.load("savedmodels/dt_model.pkl")
-        # model = pickle.load(open('savedmodels/decision_model.sav','rb'))
+        # model = joblib.load("savedmodels/dt_model.pkl")
+        model = pickle.load(open('heartproj/decision_model.sav','rb'))
+        arr = np.array(data)
+        prediction = model.predict(arr.reshape(1,-1))
+
         
         # predict the output for the input values
-        prediction =  model.predict(data)
+        # prediction =  model.predict(data)
         
         ValueStore.objects.create(age=age,gender=gender,cp=cp,trestbps=trestbps,cholestrol=cholestrol,fbs=fbs,restecg=restecg,thalach=thalach,exang=exang,oldpeak=oldpeak,slope=slope,ca=ca,thal=thal)
         
-        return render(request, 'predict.html', {'prediction': prediction})
+        return render(request, 'result.html', {'prediction': prediction})
     
     return render(request, 'predict.html')
 
