@@ -28,11 +28,14 @@ def predict(request):
         restecg=int(request.POST["restecg"])
         thalach=int(request.POST["thalach"])
         exang=int(request.POST["exang"])
+
         oldpeak=float(request.POST["oldpeak"])
+
         slope=int(request.POST["slope"])
         ca=int(request.POST["ca"])
         thal=int(request.POST["thal"])
         
+
         data = np.array([[age,gender, cp,trestbps,cholestrol, fbs, restecg,thalach, exang,oldpeak,slope,ca,thal]]) #exang, oldpeak, slope, ca, thal
         #arr = np.array(data) 'sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'ca', 'thal', 'target']
         # load the trained model
@@ -48,6 +51,8 @@ def predict(request):
         ValueStore.objects.create(age=age,gender=gender,cp=cp,trestbps=trestbps,cholestrol=cholestrol,fbs=fbs,restecg=restecg,thalach=thalach,exang=exang,oldpeak=oldpeak,slope=slope,ca=ca,thal=thal)
         
         return render(request, 'result.html', {'prediction': prediction})
+
+       
     
     return render(request, 'predict.html')
 
@@ -59,7 +64,9 @@ def loginn(request):
         user=authenticate(request,username=username,password=pass1)
         if user is not None:
             messages.info(request,"you logged in ")
+
             return render(request,'homepage2.html',{'user':user})
+
             #login(request,user)
             #return redirect('sin')
         else:

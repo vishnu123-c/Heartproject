@@ -12,7 +12,11 @@ class ValueStore(models.Model):
     restecg=models.IntegerField()
     thalach=models.IntegerField()
     exang=models.IntegerField()
+
     oldpeak=models.FloatField()
+
+    
+
     slope=models.IntegerField()
     ca=models.IntegerField()
     thal=models.IntegerField()
@@ -20,4 +24,4 @@ class ValueStore(models.Model):
     def __str__(self):
         return str(self.id)
     
-    
+
